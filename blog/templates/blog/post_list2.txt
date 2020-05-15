@@ -1,0 +1,754 @@
+<html>
+    <head>
+        <title>Erfaan's blog</title>
+    </head>
+    <body>
+        <div>
+            <h1><a href="/">Erfaan Blog</a></h1>
+        </div>
+
+        <div>
+            <p>published: 14.06.2014, 12:14</p>
+            <h2><a href="">My first post</a></h2>
+            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        </div>
+
+        <div>
+            <p>published: 14.06.2014, 12:14</p>
+            <h2><a href="">My second post</a></h2>
+            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut f.</p>
+        </div>
+    </body>
+</html>
+
+<html lang="en"><head><meta charset="utf-8"><meta name="description" content="How can complex animal behavior emerge from following just a few simple rules?"><meta property="og:url" content="https://eater.net/boids"><meta property="og:type" content="website"><meta property="og:title" content="Boids algorithm"><meta property="og:image" content="https://eater.net/images/boids.png"><meta property="og:image:secure_url" content="https://eater.net/images/boids.png"><meta property="og:description" content="How can complex animal behavior emerge from following just a few simple rules?"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="theme-color" content="#000000"><style type="text/css">svg:not(:root).svg-inline--fa {
+  overflow: visible; }
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -.125em; }
+  .svg-inline--fa.fa-lg {
+    vertical-align: -.225em; }
+  .svg-inline--fa.fa-w-1 {
+    width: 0.0625em; }
+  .svg-inline--fa.fa-w-2 {
+    width: 0.125em; }
+  .svg-inline--fa.fa-w-3 {
+    width: 0.1875em; }
+  .svg-inline--fa.fa-w-4 {
+    width: 0.25em; }
+  .svg-inline--fa.fa-w-5 {
+    width: 0.3125em; }
+  .svg-inline--fa.fa-w-6 {
+    width: 0.375em; }
+  .svg-inline--fa.fa-w-7 {
+    width: 0.4375em; }
+  .svg-inline--fa.fa-w-8 {
+    width: 0.5em; }
+  .svg-inline--fa.fa-w-9 {
+    width: 0.5625em; }
+  .svg-inline--fa.fa-w-10 {
+    width: 0.625em; }
+  .svg-inline--fa.fa-w-11 {
+    width: 0.6875em; }
+  .svg-inline--fa.fa-w-12 {
+    width: 0.75em; }
+  .svg-inline--fa.fa-w-13 {
+    width: 0.8125em; }
+  .svg-inline--fa.fa-w-14 {
+    width: 0.875em; }
+  .svg-inline--fa.fa-w-15 {
+    width: 0.9375em; }
+  .svg-inline--fa.fa-w-16 {
+    width: 1em; }
+  .svg-inline--fa.fa-w-17 {
+    width: 1.0625em; }
+  .svg-inline--fa.fa-w-18 {
+    width: 1.125em; }
+  .svg-inline--fa.fa-w-19 {
+    width: 1.1875em; }
+  .svg-inline--fa.fa-w-20 {
+    width: 1.25em; }
+  .svg-inline--fa.fa-pull-left {
+    margin-right: .3em;
+    width: auto; }
+  .svg-inline--fa.fa-pull-right {
+    margin-left: .3em;
+    width: auto; }
+  .svg-inline--fa.fa-border {
+    height: 1.5em; }
+  .svg-inline--fa.fa-li {
+    width: 2em; }
+  .svg-inline--fa.fa-fw {
+    width: 1.25em; }
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0; }
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -.125em;
+  width: 1em; }
+  .fa-layers svg.svg-inline--fa {
+    -webkit-transform-origin: center center;
+            transform-origin: center center; }
+
+.fa-layers-text, .fa-layers-counter {
+  display: inline-block;
+  position: absolute;
+  text-align: center; }
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center; }
+
+.fa-layers-counter {
+  background-color: #ff253a;
+  border-radius: 1em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  height: 1.5em;
+  line-height: 1;
+  max-width: 5em;
+  min-width: 1.5em;
+  overflow: hidden;
+  padding: .25em;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right; }
+
+.fa-layers-bottom-right {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right; }
+
+.fa-layers-bottom-left {
+  bottom: 0;
+  left: 0;
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left; }
+
+.fa-layers-top-right {
+  right: 0;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right; }
+
+.fa-layers-top-left {
+  left: 0;
+  right: auto;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top left;
+          transform-origin: top left; }
+
+.fa-lg {
+  font-size: 1.33333em;
+  line-height: 0.75em;
+  vertical-align: -.0667em; }
+
+.fa-xs {
+  font-size: .75em; }
+
+.fa-sm {
+  font-size: .875em; }
+
+.fa-1x {
+  font-size: 1em; }
+
+.fa-2x {
+  font-size: 2em; }
+
+.fa-3x {
+  font-size: 3em; }
+
+.fa-4x {
+  font-size: 4em; }
+
+.fa-5x {
+  font-size: 5em; }
+
+.fa-6x {
+  font-size: 6em; }
+
+.fa-7x {
+  font-size: 7em; }
+
+.fa-8x {
+  font-size: 8em; }
+
+.fa-9x {
+  font-size: 9em; }
+
+.fa-10x {
+  font-size: 10em; }
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em; }
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0; }
+  .fa-ul > li {
+    position: relative; }
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit; }
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: .1em;
+  padding: .2em .25em .15em; }
+
+.fa-pull-left {
+  float: left; }
+
+.fa-pull-right {
+  float: right; }
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.far.fa-pull-left,
+.fal.fa-pull-left,
+.fab.fa-pull-left {
+  margin-right: .3em; }
+
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.far.fa-pull-right,
+.fal.fa-pull-right,
+.fab.fa-pull-right {
+  margin-left: .3em; }
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear; }
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8); }
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg); }
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg); }
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg); }
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1); }
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1); }
+
+.fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1); }
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical {
+  -webkit-filter: none;
+          filter: none; }
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  width: 2em; }
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0; }
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1em; }
+
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2em; }
+
+.fa-inverse {
+  color: #fff; }
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto; }
+</style><link rel="manifest" href="/manifest.json"><link rel="shortcut icon" href="/favicon/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"><link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"><meta name="msapplication-TileColor" content="#da532c"><meta name="google-site-verification" content="tFHt6qjYXJvX7X8YYm3auEcU5UYgaU5Tt_mSCXwYRMc"><title>Ben Eater</title><link href="/static/css/main.7fb64a0e.css" rel="stylesheet"><style data-merge-styles="true" type="text/css"></style><script async="" src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"></script><script async="" src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"></script><script async="" src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"></script><script async="" src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"></script><script type="text/javascript" charset="utf-8" async="" src="/static/js/0.690716c3.chunk.js"></script><style type="text/css" data-aphrodite=""></style><meta name="author" content="Ben Eater" data-react-helmet="true"><meta property="article:author" content="Ben Eater" data-react-helmet="true"><style type="text/css">@font-face{
+    font-family: 'bnazanin';
+    src:'./../../fonts/bnazanin.ttf';
+}
+
+.dideo-tooltip {
+    position: relative;
+    display: inline-block;
+    font-family: 'bnazanin';
+    font-size: 0;
+    padding: 3px 5px;
+}
+
+.dideo-tooltip .tooltiptext {
+    visibility: hidden;
+    font-family: 'bnazanin';
+    width: 120px;
+    font-size: 13px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    left: 110%;
+}
+.dideo-img{
+    width: 18px;
+    height: 18px;
+    margin-bottom: -3px;
+    filter: drop-shadow(0px 0px 2px #adadad);
+    webkit:filter: drop-shadow(0px 0px 2px #adadad);
+}
+.dideo-tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+.dideo-tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+.srg{
+    min-width: 750px;
+}</style><style>.shopify-buy-modal-is-active {
+  height: 100%;
+  overflow: auto;
+}
+
+.shopify-buy-frame {
+  display: inline-block
+}
+
+.shopify-buy-frame iframe {
+    width: 100%;
+    display: block;
+    height: 0;
+    overflow: hidden;
+  }
+
+.shopify-buy-frame--cart {
+  width: 100%;
+  max-width: 350px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  z-index: 2147483647;
+  transform: translateX(100%);
+  -webkit-transform: translateX(100%)
+}
+
+.shopify-buy-frame--cart iframe {
+    height: 100%;
+  }
+
+.shopify-buy-frame--cart.is-initialized {
+    -webkit-transition: all 250ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 250ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+.shopify-buy-frame--cart.is-active {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+  }
+
+.shopify-buy-frame--product {
+  display: block
+}
+
+.shopify-buy-frame--product.shopify-buy__layout-horizontal {
+    display: block;
+    margin-left: auto;
+
+    margin-right: auto
+  }
+
+.shopify-buy-frame--product.shopify-buy__layout-horizontal iframe {
+      max-width: 100%
+    }
+
+@media (min-width: 950px) {
+
+.shopify-buy-frame--product.shopify-buy__layout-horizontal iframe {
+        max-width: 950px;
+        margin-left: auto;
+        margin-right: auto
+    }
+      }
+
+.shopify-buy-frame--toggle {
+  display: inline-block
+}
+
+.shopify-buy-frame--toggle:not(.is-sticky) {
+    overflow: hidden;
+    padding: 5px;
+  }
+
+.shopify-buy-frame--toggle.is-sticky {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    z-index: 2147483645;
+  }
+
+.shopify-buy-frame--toggle.is-active.is-sticky {
+    display: block;
+  }
+
+.is-active .shopify-buy-frame--toggle iframe {
+      min-height: 67px;
+    }
+
+.shopify-buy-frame--productSet {
+  width: 100%;
+}
+
+.shopify-buy-frame--modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2147483646;
+  display: none;
+  -webkit-transition: background 300ms ease;
+  transition: background 300ms ease
+}
+
+.shopify-buy-frame--modal iframe {
+    height: 100%;
+    width: 100%;
+    max-width: none;
+  }
+
+.shopify-buy-frame--modal.is-active {
+    background: rgba(0,0,0,0.6);
+  }
+
+.shopify-buy-frame--modal.is-block {
+    display: block;
+  }
+</style><meta property="og:image" content="/images/8bit-computer.jpg" data-react-helmet="true"><meta name="description" content="I create tutorial-style videos about electronics,
+              computer architecture, networking, and various other technical
+              subjects." data-react-helmet="true"><style data-jss="" data-meta="PrivateValueLabel">
+.jss52.jss53 .jss54 {
+  transform: scale(1) translateY(-10px);
+}
+.jss54 {
+  top: -34px;
+  z-index: 1;
+  position: absolute;
+  font-size: 0.75rem;
+  transform: scale(0);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.01071em;
+  transform-origin: bottom center;
+}
+.jss55 {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  transform: rotate(-45deg);
+  align-items: center;
+  border-radius: 50% 50% 50% 0;
+  justify-content: center;
+  background-color: currentColor;
+}
+.jss56 {
+  color: #fff;
+  transform: rotate(45deg);
+}
+</style><style data-jss="" data-meta="MuiSlider">
+.MuiSlider-root {
+  color: #3f51b5;
+  width: 100%;
+  cursor: pointer;
+  height: 2px;
+  display: inline-block;
+  padding: 13px 0;
+  position: relative;
+  box-sizing: content-box;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.MuiSlider-root.Mui-disabled {
+  color: #bdbdbd;
+  cursor: default;
+  pointer-events: none;
+}
+.MuiSlider-root.MuiSlider-vertical {
+  width: 2px;
+  height: 100%;
+  padding: 0 13px;
+}
+@media (pointer: coarse) {
+  .MuiSlider-root {
+    padding: 20px 0;
+  }
+  .MuiSlider-root.MuiSlider-vertical {
+    padding: 0 20px;
+  }
+}
+.MuiSlider-colorSecondary {
+  color: #f50057;
+}
+.MuiSlider-marked {
+  margin-bottom: 20px;
+}
+.MuiSlider-marked.MuiSlider-vertical {
+  margin-right: 20px;
+  margin-bottom: auto;
+}
+.MuiSlider-rail {
+  width: 100%;
+  height: 2px;
+  display: block;
+  opacity: 0.38;
+  position: absolute;
+  border-radius: 1px;
+  background-color: currentColor;
+}
+.MuiSlider-vertical .MuiSlider-rail {
+  width: 2px;
+  height: 100%;
+}
+.MuiSlider-track {
+  height: 2px;
+  display: block;
+  position: absolute;
+  border-radius: 1px;
+  background-color: currentColor;
+}
+.MuiSlider-vertical .MuiSlider-track {
+  width: 2px;
+}
+.MuiSlider-trackFalse .MuiSlider-track {
+  display: none;
+}
+.MuiSlider-trackInverted .MuiSlider-track {
+  background-color: rgb(182, 188, 226);
+}
+.MuiSlider-trackInverted .MuiSlider-rail {
+  opacity: 1;
+}
+.MuiSlider-thumb {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  outline: 0;
+  position: absolute;
+  box-sizing: border-box;
+  margin-top: -5px;
+  transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  align-items: center;
+  margin-left: -6px;
+  border-radius: 50%;
+  justify-content: center;
+  background-color: currentColor;
+}
+.MuiSlider-thumb::after {
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+.MuiSlider-thumb.Mui-focusVisible, .MuiSlider-thumb:hover {
+  box-shadow: 0px 0px 0px 8px rgba(63, 81, 181, 0.16);
+}
+.MuiSlider-thumb.MuiSlider-active {
+  box-shadow: 0px 0px 0px 14px rgba(63, 81, 181, 0.16);
+}
+.MuiSlider-thumb.Mui-disabled {
+  width: 8px;
+  height: 8px;
+  margin-top: -3px;
+  margin-left: -4px;
+}
+.MuiSlider-vertical .MuiSlider-thumb {
+  margin-left: -5px;
+  margin-bottom: -6px;
+}
+.MuiSlider-vertical .MuiSlider-thumb.Mui-disabled {
+  margin-left: -3px;
+  margin-bottom: -4px;
+}
+.MuiSlider-thumb.Mui-disabled:hover {
+  box-shadow: none;
+}
+@media (hover: none) {
+  .MuiSlider-thumb.Mui-focusVisible, .MuiSlider-thumb:hover {
+    box-shadow: none;
+  }
+}
+.MuiSlider-thumbColorSecondary.Mui-focusVisible, .MuiSlider-thumbColorSecondary:hover {
+  box-shadow: 0px 0px 0px 8px rgba(245, 0, 87, 0.16);
+}
+.MuiSlider-thumbColorSecondary.MuiSlider-active {
+  box-shadow: 0px 0px 0px 14px rgba(245, 0, 87, 0.16);
+}
+.MuiSlider-mark {
+  width: 2px;
+  height: 2px;
+  position: absolute;
+  border-radius: 1px;
+  background-color: currentColor;
+}
+.MuiSlider-markActive {
+  opacity: 0.8;
+  background-color: #fff;
+}
+.MuiSlider-markLabel {
+  top: 26px;
+  color: rgba(0, 0, 0, 0.54);
+  position: absolute;
+  font-size: 0.875rem;
+  transform: translateX(-50%);
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.43;
+  white-space: nowrap;
+  letter-spacing: 0.01071em;
+}
+.MuiSlider-vertical .MuiSlider-markLabel {
+  top: auto;
+  left: 26px;
+  transform: translateY(50%);
+}
+@media (pointer: coarse) {
+  .MuiSlider-markLabel {
+    top: 40px;
+  }
+  .MuiSlider-vertical .MuiSlider-markLabel {
+    left: 31px;
+  }
+}
+.MuiSlider-markLabelActive {
+  color: rgba(0, 0, 0, 0.87);
+}
+</style><style data-jss="" data-meta="makeStyles">
+.jss29 {
+  color: #558cf4;
+}
+.jss30 {
+  background-color: #558cf4;
+}
+.jss31 {
+  color: #558cf4;
+  opacity: 50%;
+  font-size: inherit;
+  font-weight: 100;
+}
+</style></head><body><noscript>You need to enable JavaScript to view this site.</noscript><div id="root"><div class="_1s12esw"><a href="#main" class="_5muvqi" dideo-checked="true">Skip to main content</a><header class="_bxs2y7"><a class="_1rlbp11" href="/" dideo-checked="true"><svg viewBox="-17.3745 -12.42 227.799 57.96" height="52" role="img" aria-label="Ben Eater logo type"><title>Ben Eater logo type</title><filter id="dropshadow" height="300%"><feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur> <feComponentTransfer><feFuncA type="linear" slope="0.5"></feFuncA> </feComponentTransfer><feMerge><feMergeNode></feMergeNode> <feMergeNode in="SourceGraphic"></feMergeNode> </feMerge></filter><g filter="url(#dropshadow)" fill="#ffffff"><path d="M1.16,2.09a49.89,49.89,0,0,1,8.6-.67c4.37,0,7,.53,9.26,2.06a6.81,6.81,0,0,1,3.36,6c0,3-1.87,5.71-5.37,7v.1a8.15,8.15,0,0,1,6.52,8,8.39,8.39,0,0,1-3.12,6.68c-2.3,2-6.09,3-12,3a57.81,57.81,0,0,1-7.25-.43ZM7,14.86h3c4.09,0,6.39-1.92,6.39-4.66,0-3-2.3-4.41-6-4.41A15.6,15.6,0,0,0,7,6ZM7,29.74a25.46,25.46,0,0,0,3.12.14c3.79,0,7.15-1.43,7.15-5.42,0-3.74-3.26-5.28-7.34-5.28H7Z" transform="translate(-1.16 -1.42)"></path><path d="M33,24c.14,4.23,3.45,6.05,7.2,6.05A17.64,17.64,0,0,0,46.67,29l.86,4.08a21.91,21.91,0,0,1-8.16,1.44c-7.58,0-12-4.65-12-11.81,0-6.48,3.94-12.57,11.43-12.57s10.08,6.24,10.08,11.37a15.24,15.24,0,0,1-.19,2.5Zm10.27-4.13c.05-2.16-.91-5.71-4.85-5.71-3.65,0-5.18,3.31-5.42,5.71Z" transform="translate(-1.16 -1.42)"></path><path d="M53.58,17.6c0-2.69,0-5-.19-7h5.18l.29,3.5H59a8.45,8.45,0,0,1,7.44-4c4.08,0,8.31,2.64,8.31,10V34H68.84V20.81c0-3.36-1.24-5.9-4.46-5.9a5,5,0,0,0-4.61,3.45,6.09,6.09,0,0,0-.24,1.92V34h-6Z" transform="translate(-1.16 -1.42)"></path><path d="M109.31,19.66H97.11v9.5h13.64V34H91.21V1.66H110V6.51H97.11v8.35h12.2Z" transform="translate(-1.16 -1.42)"></path><path d="M128.84,34l-.38-2.59h-.15a8.64,8.64,0,0,1-6.91,3.12,6.94,6.94,0,0,1-7.34-7c0-5.9,5.23-8.88,13.87-8.83v-.39c0-1.53-.62-4.08-4.75-4.08A12.34,12.34,0,0,0,116.89,16l-1.15-3.84a16.9,16.9,0,0,1,8.45-2.06c7.48,0,9.64,4.75,9.64,9.84V28.4a37.36,37.36,0,0,0,.34,5.61Zm-.76-11.42c-4.18-.1-8.17.81-8.17,4.37a3.1,3.1,0,0,0,3.36,3.36,4.78,4.78,0,0,0,4.61-3.22,4.08,4.08,0,0,0,.2-1.3Z" transform="translate(-1.16 -1.42)"></path><path d="M146.55,4v6.68h5.62v4.41h-5.62V25.37c0,2.84.77,4.32,3,4.32a8.43,8.43,0,0,0,2.3-.29l.1,4.52a13.19,13.19,0,0,1-4.27.57,6.83,6.83,0,0,1-5.09-1.92c-1.25-1.34-1.83-3.45-1.83-6.53v-11h-3.36V10.64h3.36V5.35Z" transform="translate(-1.16 -1.42)"></path><path d="M160.52,24c.15,4.23,3.46,6.05,7.2,6.05A17.56,17.56,0,0,0,174.2,29l.87,4.08a22,22,0,0,1-8.16,1.44c-7.59,0-12-4.65-12-11.81,0-6.48,3.93-12.57,11.42-12.57s10.08,6.24,10.08,11.37a14.19,14.19,0,0,1-.19,2.5Zm10.27-4.13c.05-2.16-.91-5.71-4.84-5.71-3.65,0-5.19,3.31-5.43,5.71Z" transform="translate(-1.16 -1.42)"></path><path d="M181.11,18.17c0-3.17,0-5.42-.19-7.53h5.14l.19,4.46h.19a7,7,0,0,1,6.39-5,6.61,6.61,0,0,1,1.39.14v5.57a8,8,0,0,0-1.73-.19,5.2,5.2,0,0,0-5.28,4.46,9.81,9.81,0,0,0-.19,1.83V34h-5.91Z" transform="translate(-1.16 -1.42)"></path></g></svg></a><div class="_13ojp7k"><a to="https://www.twitter.com/ben_eater" class="_1jsfc8c fa-layers fa-fw" aria-label="Visit my Twitter page" href="https://www.twitter.com/ben_eater" dideo-checked="true"><svg aria-hidden="true" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 fa-lg " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" color="#ffffff"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></a><a to="https://www.youtube.com/beneater" class="_1jsfc8c fa-layers fa-fw" aria-label="Visit my YouTube channel" href="https://www.youtube.com/beneater" dideo-checked="true"><svg aria-hidden="true" data-prefix="fas" data-icon="square" class="svg-inline--fa fa-square fa-w-14 fa-lg " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" color="#000000" style="transform-origin: 0.5em 0.5em;"><g transform="translate(224 256)"><g transform="translate(32, 0)  scale(0.75, 0.75)  rotate(0 0 0)"><path fill="currentColor" d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z" transform="translate(-224 -256)"></path></g></g></svg><svg aria-hidden="true" data-prefix="fab" data-icon="youtube" class="svg-inline--fa fa-youtube fa-w-18 fa-lg " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" color="#ffffff"><path fill="currentColor" d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path></svg></a><a to="https://www.reddit.com/r/beneater" class="_1jsfc8c fa-layers fa-fw" aria-label="Visit my subreddit" href="https://www.reddit.com/r/beneater" dideo-checked="true"><svg aria-hidden="true" data-prefix="fas" data-icon="square" class="svg-inline--fa fa-square fa-w-14 fa-lg " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" color="#000000" style="transform-origin: 0.5em 0.5em;"><g transform="translate(224 256)"><g transform="translate(32, 0)  scale(0.75, 0.75)  rotate(0 0 0)"><path fill="currentColor" d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z" transform="translate(-224 -256)"></path></g></g></svg><svg aria-hidden="true" data-prefix="fab" data-icon="reddit" class="svg-inline--fa fa-reddit fa-w-16 fa-lg " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" color="#ffffff"><path fill="currentColor" d="M201.5 305.5c-13.8 0-24.9-11.1-24.9-24.6 0-13.8 11.1-24.9 24.9-24.9 13.6 0 24.6 11.1 24.6 24.9 0 13.6-11.1 24.6-24.6 24.6zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-132.3-41.2c-9.4 0-17.7 3.9-23.8 10-22.4-15.5-52.6-25.5-86.1-26.6l17.4-78.3 55.4 12.5c0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.3 24.9-24.9s-11.1-24.9-24.9-24.9c-9.7 0-18 5.8-22.1 13.8l-61.2-13.6c-3-.8-6.1 1.4-6.9 4.4l-19.1 86.4c-33.2 1.4-63.1 11.3-85.5 26.8-6.1-6.4-14.7-10.2-24.1-10.2-34.9 0-46.3 46.9-14.4 62.8-1.1 5-1.7 10.2-1.7 15.5 0 52.6 59.2 95.2 132 95.2 73.1 0 132.3-42.6 132.3-95.2 0-5.3-.6-10.8-1.9-15.8 31.3-16 19.8-62.5-14.9-62.5zM302.8 331c-18.2 18.2-76.1 17.9-93.6 0-2.2-2.2-6.1-2.2-8.3 0-2.5 2.5-2.5 6.4 0 8.6 22.8 22.8 87.3 22.8 110.2 0 2.5-2.2 2.5-6.1 0-8.6-2.2-2.2-6.1-2.2-8.3 0zm7.7-75c-13.6 0-24.6 11.1-24.6 24.9 0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.1 24.9-24.6 0-13.8-11-24.9-24.9-24.9z"></path></svg></a></div><nav aria-label="Site navigation" class="_1uqr68n"><a class="_17hww4t" href="/" dideo-checked="true">Projects</a><a class="_17hww4t" href="/shop" dideo-checked="true">Shop</a><a class="_17hww4t" href="/about" dideo-checked="true">About</a><a class="_17hww4t" href="/faq" dideo-checked="true">FAQ</a><a class="_17hww4t" href="/support" dideo-checked="true">Support</a></nav></header><div class="_c12mur"><div class="_clx7wv"><h1 class="_jnwxbp">Boids algorithm demonstration</h1><div class="_13nq56c" style="width: 981px; height: 551.813px;"><canvas width="981" height="551.8125"></canvas><div class="_1jez2de" style="width: 981px; height: 58.86px; font-size: 12.2625px;"><div class="_1ijovtk"><div>&nbsp;</div><button class="_34ixo9" style="border: 1px solid rgb(193, 60, 61); color: rgb(193, 60, 61);">Reset</button></div><div class="_1ijovtk" style="width: 117.72px;"><span>Coherence</span><span class="MuiSlider-root jss29 MuiSlider-colorPrimary MuiSlider-marked"><span class="MuiSlider-rail"></span><span class="MuiSlider-track" style="left: 0%; width: 50%;"></span><input type="hidden" value="0.005"><span data-index="0" class="MuiSlider-mark MuiSlider-markActive" style="left: 0%;"></span><span aria-hidden="true" data-index="0" class="MuiSlider-markLabel jss31 MuiSlider-markLabelActive" style="left: 0%;">Off</span><span data-index="1" class="MuiSlider-mark MuiSlider-markActive" style="left: 50%;"></span><span aria-hidden="true" data-index="1" class="MuiSlider-markLabel jss31 MuiSlider-markLabelActive" style="left: 50%;"></span><span class="MuiSlider-thumb jss30 MuiSlider-thumbColorPrimary" tabindex="0" role="slider" data-index="0" aria-labelledby="coherence-slider" aria-orientation="horizontal" aria-valuemax="0.01" aria-valuemin="0" aria-valuenow="0.005" style="left: 50%;"></span></span></div><div class="_1ijovtk" style="width: 117.72px;"><span>Separation</span><span class="MuiSlider-root jss29 MuiSlider-colorPrimary MuiSlider-marked"><span class="MuiSlider-rail"></span><span class="MuiSlider-track" style="left: 0%; width: 50%;"></span><input type="hidden" value="0.05"><span data-index="0" class="MuiSlider-mark MuiSlider-markActive" style="left: 0%;"></span><span aria-hidden="true" data-index="0" class="MuiSlider-markLabel jss31 MuiSlider-markLabelActive" style="left: 0%;">Off</span><span data-index="1" class="MuiSlider-mark MuiSlider-markActive" style="left: 50%;"></span><span aria-hidden="true" data-index="1" class="MuiSlider-markLabel jss31 MuiSlider-markLabelActive" style="left: 50%;"></span><span class="MuiSlider-thumb jss30 MuiSlider-thumbColorPrimary" tabindex="0" role="slider" data-index="0" aria-labelledby="avoidance-slider" aria-orientation="horizontal" aria-valuemax="0.1" aria-valuemin="0" aria-valuenow="0.05" style="left: 50%;"></span></span></div><div class="_1ijovtk" style="width: 117.72px;"><span>Alignment</span><span class="MuiSlider-root jss29 MuiSlider-colorPrimary MuiSlider-marked"><span class="MuiSlider-rail"></span><span class="MuiSlider-track" style="left: 0%; width: 50%;"></span><input type="hidden" value="0.05"><span data-index="0" class="MuiSlider-mark MuiSlider-markActive" style="left: 0%;"></span><span aria-hidden="true" data-index="0" class="MuiSlider-markLabel jss31 MuiSlider-markLabelActive" style="left: 0%;">Off</span><span data-index="1" class="MuiSlider-mark MuiSlider-markActive" style="left: 50%;"></span><span aria-hidden="true" data-index="1" class="MuiSlider-markLabel jss31 MuiSlider-markLabelActive" style="left: 50%;"></span><span class="MuiSlider-thumb jss30 MuiSlider-thumbColorPrimary" tabindex="0" role="slider" data-index="0" aria-labelledby="alignment-slider" aria-orientation="horizontal" aria-valuemax="0.1" aria-valuemin="0" aria-valuenow="0.05" style="left: 50%;"></span></span></div><div class="_1ijovtk" style="width: 117.72px;"><span>Visual range</span><span class="MuiSlider-root jss29 MuiSlider-colorPrimary MuiSlider-marked"><span class="MuiSlider-rail"></span><span class="MuiSlider-track" style="left: 0%; width: 37.5%;"></span><input type="hidden" value="75"><span data-index="0" class="MuiSlider-mark MuiSlider-markActive" style="left: 0%;"></span><span aria-hidden="true" data-index="0" class="MuiSlider-markLabel jss31 MuiSlider-markLabelActive" style="left: 0%;">0</span><span data-index="1" class="MuiSlider-mark" style="left: 100%;"></span><span aria-hidden="true" data-index="1" class="MuiSlider-markLabel jss31" style="left: 100%;">200</span><span class="MuiSlider-thumb jss30 MuiSlider-thumbColorPrimary" tabindex="0" role="slider" data-index="0" aria-labelledby="visual-range-slider" aria-orientation="horizontal" aria-valuemax="200" aria-valuemin="0" aria-valuenow="75" style="left: 37.5%;"></span></span></div><div class="_1ijovtk"><div>&nbsp;</div><div class="_8ru12p"><label class="_1rlbp2i"><input class="_hqrnew" type="checkbox">Trace paths</label></div></div></div></div><div class="_1bm89bv"><svg aria-hidden="true" data-prefix="fas" data-icon="angle-down" class="svg-inline--fa fa-angle-down fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"></path></svg></div><div class="_ov99a3"><h1 class="_1sx1guo">What is this?</h1><p class="_13fihbu">This is a simple demonstration of the boids algorithm that's featured in this Smarter Every Day video:</p><div class="_12to336"><div class="_1qjnhh"><div class="_wqx7q7" aria-hidden="true" style="background-image: url(&quot;https://img.youtube.com/vi/4LWmRuB-uNU/mqdefault.jpg&quot;);"><a class="_88zvqn" href="https://www.youtube.com/watch?v=4LWmRuB-uNU" target="_yt" dideo-checked="true"><div class="_crbt26"><svg aria-hidden="true" data-prefix="fas" data-icon="play" class="svg-inline--fa fa-play fa-w-14 fa-4x " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" alt=""><path fill="currentColor" d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path></svg></div></a><a target="_blank" dideo-checked="true" href="https://www.dideo.ir/extension/redirect?url=aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj00TFdtUnVCLXVOVQ=="> <div class="dideo-tooltip"><img class="dideo-img" src="data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 33 37' width='16' height='16'%3E%3Cpath fill='%23CC0000' d='M11,18.3l-11,11l4.7,4.7c3.5,3.5,9.1,3.5,12.6,0l4.7-4.7L11,18.3z'/%3E%3Crect x='14.2' y='10.5' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -6.484 20.8693)' fill='%23FF3333' width='15.5' height='15.5'/%3E%3Cpath fill='%23CC0000' d='M4.7,2.6L0,7.3l11,11l11-11l-4.7-4.7C13.8-0.9,8.2-0.9,4.7,2.6z'/%3E%3C/svg%3E " alt=""><span class="tooltiptext">در دیدئو ببینید</span></div> </a><div class="_lkpqev">13:29</div></div><a class="_jtqj9y" href="https://www.youtube.com/watch?v=4LWmRuB-uNU" target="_yt" dideo-checked="true">How Flocking Birds Make Amazing Murmurations (Boids Algorithm) - Smarter Every Day 234</a><a target="_blank" dideo-checked="true" href="https://www.dideo.ir/extension/redirect?url=aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj00TFdtUnVCLXVOVQ=="> <div class="dideo-tooltip"><img class="dideo-img" src="data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 33 37' width='16' height='16'%3E%3Cpath fill='%23CC0000' d='M11,18.3l-11,11l4.7,4.7c3.5,3.5,9.1,3.5,12.6,0l4.7-4.7L11,18.3z'/%3E%3Crect x='14.2' y='10.5' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -6.484 20.8693)' fill='%23FF3333' width='15.5' height='15.5'/%3E%3Cpath fill='%23CC0000' d='M4.7,2.6L0,7.3l11,11l11-11l-4.7-4.7C13.8-0.9,8.2-0.9,4.7,2.6z'/%3E%3C/svg%3E " alt=""><span class="tooltiptext">در دیدئو ببینید</span></div> </a></div></div><p class="_13fihbu">Check the video out to learn how this simulation models flocking behavior in birds and other animals.</p><h2 class="_1sx1guo">How does it work?</h2><p class="_13fihbu">Each of the boids (bird-oid objects) obeys three simple rules:</p><h3 class="_1461p8n">1. Coherence</h3><p class="_13fihbu">Each boid flies towards the the other boids. But they don't just immediately fly directly at each other. They gradually steer towards each other at a rate that you can adjust with the "coherence" slider.</p><h3 class="_1461p8n">2. Separation</h3><p class="_13fihbu">Each boid also tries to avoid running into the other boids. If it gets too close to another boid it will steer away from it. You can control how quickly it steers with the "separation" slider.</p><h3 class="_1461p8n">3. Alignment</h3><p class="_13fihbu">Finally, each boid tries to match the vector (speed and direction) of the other boids around it. Again, you can control how quickly they try to match vectors using the "coherence" slider.</p><h2 class="_1sx1guo">Visual range</h2><p class="_13fihbu">There are a ton of ways to extend this simple model to better simulate the behavior of different animals. An example I showed in the video is to limit the "visual range" of each boid. Real animals can't see the entire flock; they can only see the other animals around them. By adjusting the visual range slider, you can adjust how far each boid can "see"—that is which other boids it considers when applying the three rules above.</p><h2 class="_1sx1guo">What else can I do?</h2><p class="_13fihbu">The source code from the video is available on <a class="_1iw9e0l" to="https://github.com/beneater/boids" target="_blank" href="https://github.com/beneater/boids" dideo-checked="true">GitHub</a>. If you want to go beyond what you can do by playing with the sliders on this page, I recommend grabbing the code and changing stuff to see what happens. All you need is a text editor and a web browser.</p><p class="_13fihbu">There are lots of features you could try adding to the code yourself:<ul class="_1q7xlyy"><li>Add a predator that the boids try to avoid that scatters the flock if it gets too close.</li><li>Add a strong wind or current to see what effect it has on the flock.</li><li>Add "perching" behavior. If a boid gets close to the bottom of the screen, have it land and hang out on the ground for a bit before taking off again and rejoining the flock.</li><li>Make it 3D! The boids' velocity is currently represented as a 2D vector. You could change them to 3D vectors and update the vector math to work. To draw in 3D, you could just change the size of the boids to represent how far away they are.</li></ul>See <a class="_1iw9e0l" to="http://www.kfish.org/boids/pseudocode.html" target="_blank" href="http://www.kfish.org/boids/pseudocode.html" dideo-checked="true">this link</a> for more ideas and hints on how to do some of the ideas above.</p><a class="_chfhucf" href="/" dideo-checked="true"><svg aria-hidden="true" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg> Check out my other work</a></div></div></div></div></div><script async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/static/js/main.1815882a.js"></script>
+<div class="shopify-buy-frame shopify-buy-frame--toggle is-sticky" tabindex="0" role="button" aria-label="cart"><iframe horizontalscrolling="no" verticalscrolling="no" allowtransparency="true" frameborder="0" scrolling="no" name="frame-toggle" style="width: 0px; overflow: hidden; border: none; height: 0px;"></iframe></div><div class="shopify-buy-cart-wrapper shopify-buy-frame shopify-buy-frame--cart"><iframe horizontalscrolling="no" verticalscrolling="no" allowtransparency="true" frameborder="0" scrolling="no" name="frame-cart" style="width: 100%; overflow: hidden; border: none;"></iframe></div><div id="MBRulerView" class="mbrulerbase" style="width: 964px; height: 0px;"><div id="MBRulerGrid" class="mbrulerbase" style="width: 964px; height: 0px;"></div><div id="MBRulerTriangular" class="mbrulertriangular"></div><div id="MBRulerGuideLines" class="mbrulerbase" style="width: 964px; height: 0px;"></div><div id="MBRulerNodes" class="mbrulerbase" style="width: 964px; height: 0px;"><div id="MBRulerEndNode"></div><div id="A" class="mbrulerpoint" style="cursor: move; width: 10px; height: 10px; left: 95px; top: 95px; opacity: 0;"><svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" preserveAspectRatio="xMidYMid meet"><circle cx="5" cy="5" r="5" stroke="none" stroke-width="0" fill="red"></circle></svg></div><div id="B" class="mbrulerpoint" style="cursor: move; width: 10px; height: 10px; left: 195px; top: 195px; opacity: 0;"><svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" preserveAspectRatio="xMidYMid meet"><circle cx="5" cy="5" r="5" stroke="none" stroke-width="0" fill="red"></circle></svg></div><div id="B1" class="mbrulerpoint" style="cursor: move; width: 10px; height: 10px; left: 1147px; top: 560.5px; opacity: 0;"><svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" preserveAspectRatio="xMidYMid meet"><circle cx="5" cy="5" r="5" stroke="none" stroke-width="0" fill="red"></circle></svg></div><div id="B2" class="mbrulerpoint" style="cursor: move; width: 10px; height: 10px; left: 379px; top: 560.5px; opacity: 0;"><svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" preserveAspectRatio="xMidYMid meet"><circle cx="5" cy="5" r="5" stroke="none" stroke-width="0" fill="red"></circle></svg></div><div id="A" class="mbrulerpoint" style="cursor: move; width: 10px; height: 10px; left: 763px; top: 560.5px; opacity: 0;"><svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" preserveAspectRatio="xMidYMid meet"><circle cx="5" cy="5" r="5" stroke="none" stroke-width="0" fill="red"></circle></svg></div><div id="D" class="mbrulerpoint" style="cursor: move; width: 10px; height: 10px; left: 763px; top: 520.5px; opacity: 0;"><svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" preserveAspectRatio="xMidYMid meet"><circle cx="5" cy="5" r="5" stroke="none" stroke-width="0" fill="blue"></circle></svg></div><div id="NewX" class="mbrulerpoint" style="cursor: ew-resize; width: 10px; height: 10px; left: -105px; top: -105px;"><svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" preserveAspectRatio="xMidYMid meet"><circle cx="5" cy="5" r="5" stroke="none" stroke-width="0" fill="none"></circle></svg></div><div id="NewY" class="mbrulerpoint" style="cursor: ns-resize; width: 10px; height: 10px; left: -105px; top: -105px;"><svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" preserveAspectRatio="xMidYMid meet"><circle cx="5" cy="5" r="5" stroke="none" stroke-width="0" fill="none"></circle></svg></div></div><div id="MBRulerLines" class="mbrulerbase" style="width: 964px; height: 0px;"><div id="MBRulerEndLine"></div></div><div id="MBRulerMenu" class="mbrulertriangular"><div id="MBRulerShowInstruments" class="MBRulerShowInstruments" style="display: none;"></div><div id="MBRulerHideInstruments" class="MBRulerHideInstruments"></div><div id="MBRulerGridToggle" class="MBRulerGridToggle"></div><div id="MBRulerTriangularToggle" class="MBRulerTriangularToggle"></div><div id="MBRulerGuideLinesToggle" class="MBRulerGuideLinesToggle"></div></div></div></body></html>
