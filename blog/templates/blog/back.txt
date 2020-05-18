@@ -11,3 +11,19 @@
 	    {{ post }}
 	{% endfor %}
         </div>
+
+
+
+
+
+
+
+{% extends 'blog/base.html' %}
+
+{% block content %}
+     <div class="post">
+        	<p>published: 14.06.2014, 12:14</p>
+        	<h2><a href="">My first post</a></h2>
+      	<p>Hi Guys. I'm trying to make this better. how is it so far??</p>
+    </div>
+{% endblock %}
